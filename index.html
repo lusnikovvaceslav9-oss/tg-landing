@@ -11,6 +11,24 @@
 
   <!-- TRACKING_SCRIPT_PLACEHOLDER: сюда позже вставится <script> от TgTrack -->
 
+  <!-- Yandex.Metrika counter -->
+  <script>
+    (function (m, e, t, r, i, k, a) {
+      m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+      m[i].l = 1 * new Date();
+      for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+      k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a);
+    })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(112358197, "init", {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true
+    });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/112358197" style="position:absolute;left:-9999px" alt=""></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
   <style>
     :root {
       --page: #0b141a;
@@ -197,13 +215,35 @@
 
   <script>
     const CHANNEL_URL = "https://t.me/dmitri_baskov";
+    const METRIKA_ID = 112358197;
+    const CONVERSION_GOAL = "subscribe";
 
-    document.getElementById("cta").href = CHANNEL_URL;
+    const cta = document.getElementById("cta");
+    cta.href = CHANNEL_URL;
 
     const avatarImg = document.getElementById("avatarImg");
     if (avatarImg.getAttribute("src")) {
       document.getElementById("avatar").classList.add("has-image");
     }
+
+    cta.addEventListener("click", function (event) {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button) return;
+      event.preventDefault();
+
+      let sent = false;
+      const go = function () {
+        if (sent) return;
+        sent = true;
+        window.location.href = CHANNEL_URL;
+      };
+
+      if (typeof ym === "function") {
+        ym(METRIKA_ID, "reachGoal", CONVERSION_GOAL, {}, go);
+        setTimeout(go, 400);
+      } else {
+        go();
+      }
+    });
   </script>
 </body>
 </html>
