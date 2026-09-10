@@ -9,8 +9,16 @@
   <title>Дмитрий Басков | Официальный телеграм-канал</title>
   <meta name="description" content="Официальный телеграм-канал Дмитрия Баскова">
 
-  <!-- TgTrack: Direct conversions toTelegram / userDidOpenTelegram / userDidSubscribe -->
-  <script src="https://api.tgtrack.ru/API/landing_script/v1/?linkID=7f971ea7624682&type=ya&counterID=112358197" type="text/javascript" defer></script>
+  <!-- TgTrack: linkID по умолчанию — канал; ?lid= — отдельная ссылка на пост -->
+  <script>
+    (function () {
+      var lid = new URLSearchParams(location.search).get('lid') || '7f971ea7624682';
+      var s = document.createElement('script');
+      s.src = 'https://api.tgtrack.ru/API/landing_script/v1/?linkID=' + encodeURIComponent(lid) + '&type=ya&counterID=112358197';
+      s.defer = true;
+      document.head.appendChild(s);
+    })();
+  </script>
 
   <!-- Yandex.Metrika counter -->
   <script>
@@ -207,7 +215,7 @@
     <p class="offer">Официальный телеграм-канал</p>
 
     <a class="cta tgTrack-toChannel" id="cta" href="https://t.me/dmitri_baskov">
-      Перейти в канал
+      <span id="ctaLabel">Перейти в канал</span>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
         <path fill="currentColor" d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-2.12 2.04c-.24.24-.45.44-.7.31z"/>
       </svg>
@@ -216,8 +224,17 @@
 
   <script>
     const CHANNEL_URL = "https://t.me/dmitri_baskov";
-
-    document.getElementById("cta").href = CHANNEL_URL;
+    const params = new URLSearchParams(location.search);
+    const postId = (params.get("p") || params.get("post") || "").replace(/\D/g, "");
+    const cta = document.getElementById("cta");
+    const offer = document.querySelector(".offer");
+    if (postId) {
+      cta.href = CHANNEL_URL + "/" + postId;
+      document.getElementById("ctaLabel").textContent = "Открыть пост";
+      if (offer) offer.textContent = "Пост в телеграм-канале";
+    } else {
+      cta.href = CHANNEL_URL;
+    }
 
     const avatarImg = document.getElementById("avatarImg");
     if (avatarImg.getAttribute("src")) {
