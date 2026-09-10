@@ -9,10 +9,14 @@
   <title>Дмитрий Басков | Официальный телеграм-канал</title>
   <meta name="description" content="Официальный телеграм-канал Дмитрия Баскова">
 
-  <!-- TgTrack: linkID по умолчанию — канал; ?lid= — отдельная ссылка на пост -->
+  <!-- TgTrack только для потока в канал. Поток на пост (?p=) идёт напрямую в t.me, без перехвата. -->
   <script>
     (function () {
-      var lid = new URLSearchParams(location.search).get('lid') || '7f971ea7624682';
+      var params = new URLSearchParams(location.search);
+      var postId = (params.get('p') || params.get('post') || '').replace(/\D/g, '');
+      var lid = params.get('lid');
+      if (postId && !lid) return;
+      lid = lid || '7f971ea7624682';
       var s = document.createElement('script');
       s.src = 'https://api.tgtrack.ru/API/landing_script/v1/?linkID=' + encodeURIComponent(lid) + '&type=ya&counterID=112358197';
       s.defer = true;
@@ -230,6 +234,7 @@
     const offer = document.querySelector(".offer");
     if (postId) {
       cta.href = CHANNEL_URL + "/" + postId;
+      cta.classList.remove("tgTrack-toChannel");
       document.getElementById("ctaLabel").textContent = "Открыть пост";
       if (offer) offer.textContent = "Пост в телеграм-канале";
     } else {
