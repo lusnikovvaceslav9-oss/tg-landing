@@ -9,7 +9,8 @@
   <title>Дмитрий Басков | Официальный телеграм-канал</title>
   <meta name="description" content="Официальный телеграм-канал Дмитрия Баскова">
 
-  <!-- TRACKING_SCRIPT_PLACEHOLDER: сюда позже вставится <script> от TgTrack -->
+  <!-- TgTrack: Direct conversions toTelegram / userDidOpenTelegram / userDidSubscribe -->
+  <script src="https://api.tgtrack.ru/API/landing_script/v1/?linkID=7f971ea7624682&type=ya&counterID=112358197" type="text/javascript" defer></script>
 
   <!-- Yandex.Metrika counter -->
   <script>
@@ -205,7 +206,7 @@
     <p class="handle">@dmitri_baskov</p>
     <p class="offer">Официальный телеграм-канал</p>
 
-    <a class="cta" id="cta" href="#">
+    <a class="cta tgTrack-toChannel" id="cta" href="https://t.me/dmitri_baskov">
       Перейти в канал
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
         <path fill="currentColor" d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-2.12 2.04c-.24.24-.45.44-.7.31z"/>
@@ -215,35 +216,13 @@
 
   <script>
     const CHANNEL_URL = "https://t.me/dmitri_baskov";
-    const METRIKA_ID = 112358197;
-    const CONVERSION_GOAL = "subscribe";
 
-    const cta = document.getElementById("cta");
-    cta.href = CHANNEL_URL;
+    document.getElementById("cta").href = CHANNEL_URL;
 
     const avatarImg = document.getElementById("avatarImg");
     if (avatarImg.getAttribute("src")) {
       document.getElementById("avatar").classList.add("has-image");
     }
-
-    cta.addEventListener("click", function (event) {
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button) return;
-      event.preventDefault();
-
-      let sent = false;
-      const go = function () {
-        if (sent) return;
-        sent = true;
-        window.location.href = CHANNEL_URL;
-      };
-
-      if (typeof ym === "function") {
-        ym(METRIKA_ID, "reachGoal", CONVERSION_GOAL, {}, go);
-        setTimeout(go, 400);
-      } else {
-        go();
-      }
-    });
   </script>
 </body>
 </html>
