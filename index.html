@@ -237,6 +237,19 @@
       cta.classList.remove("tgTrack-toChannel");
       document.getElementById("ctaLabel").textContent = "Открыть пост";
       if (offer) offer.textContent = "Пост в телеграм-канале";
+      cta.addEventListener("click", function (e) {
+        if (typeof ym !== "function") return;
+        e.preventDefault();
+        var url = cta.href;
+        var went = false;
+        function go() {
+          if (went) return;
+          went = true;
+          window.location.href = url;
+        }
+        ym(112358197, "reachGoal", "post_open", { callback: go });
+        setTimeout(go, 400);
+      });
     } else {
       cta.href = CHANNEL_URL;
     }
