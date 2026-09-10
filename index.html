@@ -247,7 +247,8 @@
           went = true;
           window.location.href = url;
         }
-        ym(112358197, "reachGoal", "post_open", { callback: go });
+        // params — 4-й аргумент, callback — 5-й. Не класть функцию в params — хит ломается.
+        ym(112358197, "reachGoal", "post_open", {}, go);
         setTimeout(go, 400);
       });
     } else {
