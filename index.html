@@ -9,14 +9,10 @@
   <title>Дмитрий Басков | Официальный телеграм-канал</title>
   <meta name="description" content="Официальный телеграм-канал Дмитрия Баскова">
 
-  <!-- TgTrack только для потока в канал. Поток на пост (?p=) идёт напрямую в t.me, без перехвата. -->
+  <!-- TgTrack: канал и пост (?p=N → t.me/channel/N). Цели: toTelegram / userDidOpenTelegram / userDidSubscribe. -->
   <script>
     (function () {
-      var params = new URLSearchParams(location.search);
-      var postId = (params.get('p') || params.get('post') || '').replace(/\D/g, '');
-      var lid = params.get('lid');
-      if (postId && !lid) return;
-      lid = lid || '7f971ea7624682';
+      var lid = new URLSearchParams(location.search).get('lid') || '7f971ea7624682';
       var s = document.createElement('script');
       s.src = 'https://api.tgtrack.ru/API/landing_script/v1/?linkID=' + encodeURIComponent(lid) + '&type=ya&counterID=112358197';
       s.defer = true;
@@ -234,22 +230,10 @@
     const offer = document.querySelector(".offer");
     if (postId) {
       cta.href = CHANNEL_URL + "/" + postId;
-      cta.classList.remove("tgTrack-toChannel");
       document.getElementById("ctaLabel").textContent = "Открыть пост";
       if (offer) offer.textContent = "Пост в телеграм-канале";
-      cta.addEventListener("click", function (e) {
-        if (typeof ym !== "function") return;
-        e.preventDefault();
-        var url = cta.href;
-        var went = false;
-        function go() {
-          if (went) return;
-          went = true;
-          window.location.href = url;
-        }
-        // params — 4-й аргумент, callback — 5-й. Не класть функцию в params — хит ломается.
-        ym(112358197, "reachGoal", "post_open", {}, go);
-        setTimeout(go, 400);
+      cta.addEventListener("click", function () {
+        if (typeof ym === "function") ym(112358197, "reachGoal", "post_open");
       });
     } else {
       cta.href = CHANNEL_URL;
