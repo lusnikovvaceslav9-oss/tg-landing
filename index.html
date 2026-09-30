@@ -210,12 +210,12 @@
       <span>ДБ</span>
     </div>
 
-    <h1>Дмитрий Басков</h1>
+    <h1 id="title">Дмитрий Басков</h1>
     <p class="handle">@dmitri_baskov</p>
-    <p class="offer">Официальный телеграм-канал</p>
+    <p class="offer" id="offer">Официальный телеграм-канал</p>
 
     <a class="cta tgTrack-toChannel" id="cta" href="https://t.me/dmitri_baskov">
-      <span id="ctaLabel">Перейти в канал</span>
+      <span id="ctaLabel">Подписаться бесплатно</span>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
         <path fill="currentColor" d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-2.12 2.04c-.24.24-.45.44-.7.31z"/>
       </svg>
@@ -225,13 +225,38 @@
   <script>
     const CHANNEL_URL = "https://t.me/dmitri_baskov";
     const params = new URLSearchParams(location.search);
-    const postId = (params.get("p") || params.get("post") || "").replace(/\D/g, "");
     const cta = document.getElementById("cta");
-    const offer = document.querySelector(".offer");
+    const title = document.getElementById("title");
+    const offer = document.getElementById("offer");
+
+    // Заголовок под интент группы (utm_group={gbid} проставляет Директ)
+    const BY_GROUP = {
+      "5802557312": {
+        title: "Динамо Минск: анонсы и разборы матчей",
+        offer: "Телеграм-канал Дмитрия Баскова"
+      },
+      "5802559350": {
+        title: "Динамо Минск изнутри",
+        offer: "Телеграм-канал Дмитрия Баскова"
+      },
+      "5802560533": {
+        title: "Белорусский хоккей без фильтра",
+        offer: "Телеграм-канал Дмитрия Баскова"
+      }
+    };
+    const variant = BY_GROUP[params.get("utm_group")];
+    if (variant) {
+      title.textContent = variant.title;
+      offer.textContent = variant.offer;
+    }
+
+    // Режим поста: ?p=N ведёт на конкретный пост
+    const postId = (params.get("p") || params.get("post") || "").replace(/\D/g, "");
     if (postId) {
       cta.href = CHANNEL_URL + "/" + postId;
       document.getElementById("ctaLabel").textContent = "Открыть пост";
-      if (offer) offer.textContent = "Пост в телеграм-канале";
+      title.textContent = "Дмитрий Басков";
+      offer.textContent = "Пост в телеграм-канале";
       cta.addEventListener("click", function () {
         if (typeof ym === "function") ym(112358197, "reachGoal", "post_open");
       });
